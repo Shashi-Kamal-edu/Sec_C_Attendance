@@ -59,6 +59,7 @@ nav.tabs button.on{color:var(--acc)}
 input[type=range]{padding:0;accent-color:var(--acc)}
 .foot{text-align:center;color:var(--mute);font-size:13px;margin:18px 0 4px}
 .back{border:0;background:none;color:var(--acc);font-weight:600;padding:6px 0;margin-bottom:4px;font-size:16px}
+.pen{border:0;background:none;font-size:18px;padding:4px;vertical-align:middle}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
@@ -72,7 +73,7 @@ const save=()=>{try{localStorage.setItem('att_v1',JSON.stringify(S))}catch(e){}}
 const pad=n=>String(n).padStart(2,'0');
 const key=(y,m,d)=>`${y}-${pad(m+1)}-${pad(d)}`;
 const now=new Date();
-let pend=null,flash='',tab='home',cur=null,vy=now.getFullYear(),vm=now.getMonth(),sel=key(vy,vm,now.getDate()),showHist=false,wa=3,wm=0;
+let editingTitle=false,pend=null,flash='',tab='home',cur=null,vy=now.getFullYear(),vm=now.getMonth(),sel=key(vy,vm,now.getDate()),showHist=false,wa=3,wm=0;
 const todayK=sel;
 const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const LBL={P:'Present',A:'Absent',C:'Class off'};
@@ -119,6 +120,13 @@ function editSubject(id){
 }
 function shift(n){vm+=n;if(vm<0){vm=11;vy--}if(vm>11){vm=0;vy++}render()}
 function openSubj(id){cur=id;showHist=false;sel=todayK;vy=now.getFullYear();vm=now.getMonth();render();scrollTo(0,0)}
+function saveTitle(){
+  const v=$('#ti').value.trim();
+  if(v)S.title=v.slice(0,30);
+  editingTitle=false;
+  document.title=S.title||'Sec_C Attendance';
+  save();render();
+}
 function go(t){tab=t;cur=null;flash='';render();scrollTo(0,0)}
 function exportData(){
   const j=JSON.stringify(S);
@@ -271,7 +279,11 @@ function homeView(){
     <div class="top"><b>${esc(s.name)}</b><span class="pct" style="color:${col(st.pct,s.target)}">${st.pct.toFixed(1)}%</span></div>
     <div class="bar"><i style="width:${st.pct}%;background:${col(st.pct,s.target)}"></i></div>
     <div class="mu">${st.a}/${st.t} attended · target ${s.target}%</div></button>`}).join('')||`<div class="card empty">Add your first subject below.</div>`;
-  return`<h1>Sec_C Attendance</h1>${flash?`<div class="card" style="border-color:var(--p);font-weight:600">${flash}</div>`:''}${list}
+  const ttl=S.title||'Sec_C Attendance';
+  const head=editingTitle
+    ?`<div class="add" style="margin:6px 0 14px"><input id="ti" value="${esc(ttl)}" maxlength="30"><button class="btn" onclick="saveTitle()">Save</button></div>`
+    :`<h1>${esc(ttl)} <button class="pen" onclick="editingTitle=true;render()" aria-label="Edit app name">✏️</button></h1>`;
+  return`${head}${flash?`<div class="card" style="border-color:var(--p);font-weight:600">${flash}</div>`:''}${list}
   <div class="card"><b>Add subject</b><div class="add" style="margin-top:8px"><input id="sn" placeholder="Subject name" maxlength="40"><input id="st" class="t" type="number" inputmode="numeric" value="75" aria-label="Target percent"><button class="btn" onclick="addSubject()">Add</button></div><div class="mu" style="margin-top:6px;font-size:13px">Right box is your target attendance %.</div></div>
   <div class="card"><b>Backup and restore (Excel)</b><div class="mu" style="font-size:13px;margin:4px 0 8px">Your data lives only in this browser. Download your attendance as an Excel file and save it in Files or iCloud. To get it back, restore from the same Excel file.</div>
   <button class="btn" style="width:100%;margin-bottom:8px" onclick="dlBackup()">Download Excel backup</button>
