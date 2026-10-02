@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sec_C Attendance">
+<title>Sec_C Attendance</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF1F5;--card:#fff;--ink:#14213D;--mute:#6B7690;--line:#DCE1EA;--p:#1F9D6B;--a:#D64545;--c:#8A93A6;--acc:#2B4C9B;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1524;--card:#192135;--ink:#EAF0FF;--mute:#93A0BD;--line:#2A3552;--p:#2FAF7C;--a:#E5605F;--c:#6F7A93;--acc:#7FA2FF}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'Bricolage Grotesque',-apple-system,system-ui,sans-serif}
+body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+main{max-width:520px;margin:0 auto;padding:16px}
+h1{font-size:26px;font-weight:800;margin:6px 0 14px}
+button{font:inherit;color:inherit;cursor:pointer}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
+.mh{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.mh b{font-size:18px}
+.nav{border:1px solid var(--line);background:none;border-radius:10px;width:38px;height:38px;font-size:18px}
+.g{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}
+.dow{font-size:12px;color:var(--mute);padding:4px 0}
+.d{aspect-ratio:1;border:0;background:var(--bg);border-radius:10px;font-size:15px;font-weight:600;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;position:relative}
+.d.P{background:var(--p);color:#fff}.d.A{background:var(--a);color:#fff}.d.C{background:var(--c);color:#fff}
+.d.t{box-shadow:inset 0 0 0 2px var(--acc)}
+.d.s{box-shadow:0 0 0 3px var(--ink)}
+.d .nt{position:absolute;top:4px;right:5px;width:6px;height:6px;border-radius:50%;background:#FFD24A}
+.dots{display:flex;gap:2px;height:5px}.dots i{width:5px;height:5px;border-radius:50%}
+.row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border:0}
+.row .n{flex:1;font-weight:600;min-width:0;overflow-wrap:anywhere}
+.mk{display:flex;gap:6px}
+.mk button{border:1.5px solid var(--line);background:none;border-radius:10px;height:42px;min-width:48px;font-weight:600;font-size:14px;padding:0 10px}
+.mk .P.on{background:var(--p);border-color:var(--p);color:#fff}.mk .A.on{background:var(--a);border-color:var(--a);color:#fff}.mk .C.on{background:var(--c);border-color:var(--c);color:#fff}
+.pct{font-size:34px;font-weight:800;line-height:1}
+.bar{height:8px;background:var(--line);border-radius:6px;margin:10px 0;overflow:hidden}.bar i{display:block;height:100%;border-radius:6px}
+.mu{color:var(--mute);font-size:14px}
+.chips{display:flex;gap:14px;font-size:14px;margin-top:6px;flex-wrap:wrap}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.top b{font-size:17px;overflow-wrap:anywhere}
+.sc{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
+input,textarea{font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px;width:100%}
+textarea{resize:vertical;min-height:64px}
+.add{display:flex;gap:8px}.add .t{width:84px}
+.btn{background:var(--ink);color:var(--bg);border:0;border-radius:10px;padding:0 16px;font-weight:600;height:44px}
+.lnk{background:none;border:0;color:var(--acc);font-weight:600;padding:6px 0}
+.dng{color:var(--a)}
+.log{max-height:240px;overflow:auto;font-size:14px}
+.log div{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line)}
+.log small{display:block;color:var(--mute)}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom,0px)}
+nav.tabs button{flex:1;border:0;background:none;padding:14px 0;font-weight:600;color:var(--mute);font-size:15px}
+nav.tabs button.on{color:var(--acc)}
+.empty{text-align:center;color:var(--mute);padding:24px 8px}
+.gr{touch-action:pan-y;width:100%;display:block}
+.ro{font-weight:600;min-height:22px;margin-bottom:4px}
+input[type=range]{padding:0;accent-color:var(--acc)}
+.foot{text-align:center;color:var(--mute);font-size:13px;margin:18px 0 4px}
+.back{border:0;background:none;color:var(--acc);font-weight:600;padding:6px 0;margin-bottom:4px;font-size:16px}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+<main id="app"></main>
+<nav class="tabs"><button data-t="home">Subjects</button><button data-t="mark">Quick mark</button><button data-t="stats">Insights</button></nav>
+<script>
+let S={subjects:[],records:{},notes:{}};
+try{const x=localStorage.getItem('att_v1');if(x)S=Object.assign(S,JSON.parse(x))}catch(e){}
+const save=()=>{try{localStorage.setItem('att_v1',JSON.stringify(S))}catch(e){}};
+const pad=n=>String(n).padStart(2,'0');
+const key=(y,m,d)=>`${y}-${pad(m+1)}-${pad(d)}`;
+const now=new Date();
+let pend=null,flash='',tab='home',cur=null,vy=now.getFullYear(),vm=now.getMonth(),sel=key(vy,vm,now.getDate()),showHist=false,wa=3,wm=0;
+const todayK=sel;
+const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const LBL={P:'Present',A:'Absent',C:'Class off'};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fd=(d,o)=>new Date(d+'T00:00:00').toLocaleDateString('en-IN',o||{day:'numeric',month:'short',year:'numeric'});
+const col=(p,t)=>p>=t?'var(--p)':'var(--a)';
+const subj=id=>S.subjects.find(s=>s.id===id);
+
+function stats(id){
+  let a=0,ab=0,c=0,log=[];
+  Object.keys(S.records).sort().reverse().forEach(d=>{const v=S.records[d][id];if(!v)return;
+    if(v==='P')a++;else if(v==='A')ab++;else c++;log.push([d,v])});
+  const t=a+ab;return{a,ab,c,t,pct:t?a/t*100:0,log};
+}
+function advice(st,target){
+  const r=target/100;
+  if(!st.t)return'No classes marked yet';
+  if(st.pct>=target){const k=r>=1?0:Math.floor(st.a/r-st.t+1e-9);return k>0?`Safe. You can miss ${k} more class${k>1?'es':''}`:'On the edge. Do not miss the next class'}
+  const k=r>=1?'all':Math.ceil((r*st.t-st.a)/(1-r)-1e-9);return `Attend the next ${k} class${k===1?'':'es'} to reach ${target}%`;
+}
+function setMark(id,v,d){
+  d=d||sel;const r=S.records[d]||(S.records[d]={});
+  if(r[id]===v)delete r[id];else r[id]=v;
+  if(!Object.keys(r).length)delete S.records[d];
+  save();render();
+}
+function allPresent(){S.subjects.forEach(s=>{(S.records[sel]||(S.records[sel]={}))[s.id]='P'});save();render()}
+function setNote(id,v){const k=sel+'|'+id;v=v.trim();if(v)S.notes[k]=v;else delete S.notes[k];save();render()}
+function addSubject(){
+  const n=$('#sn').value.trim(),t=parseInt($('#st').value)||75;if(!n)return;
+  S.subjects.push({id:'s'+Date.now(),name:n,target:Math.min(100,Math.max(1,t))});save();render();
+}
+function delSubject(id){
+  if(!confirm('Delete this subject and all its attendance?'))return;
+  S.subjects=S.subjects.filter(s=>s.id!==id);
+  Object.keys(S.records).forEach(d=>{delete S.records[d][id];if(!Object.keys(S.records[d]).length)delete S.records[d]});
+  Object.keys(S.notes).forEach(k=>{if(k.endsWith('|'+id))delete S.notes[k]});
+  save();cur=null;render();
+}
+function editSubject(id){
+  const s=subj(id);const n=prompt('Subject name',s.name);if(n&&n.trim())s.name=n.trim();
+  const t=parseInt(prompt('Target attendance %',s.target));if(t>0&&t<=100)s.target=t;save();render();
+}
+function shift(n){vm+=n;if(vm<0){vm=11;vy--}if(vm>11){vm=0;vy++}render()}
+function openSubj(id){cur=id;showHist=false;sel=todayK;vy=now.getFullYear();vm=now.getMonth();render();scrollTo(0,0)}
+function go(t){tab=t;cur=null;flash='';render();scrollTo(0,0)}
+function exportData(){
+  const j=JSON.stringify(S);
+  (navigator.clipboard?navigator.clipboard.writeText(j):Promise.reject()).then(()=>rmsg('Backup text copied. Paste it in Notes to keep it safe.')).catch(()=>{$('#rt').value=j;$('#rt').select();rmsg('Copy the text from the box below.')});
+}
+const STL={P:'Present',A:'Absent',C:'Class off'};
+async function saveBlob(blob,name){
+  try{if(window.claude&&claude.use){const d=await claude.use('downloads');if(d){await d.save({filename:name,data:blob});return}}}
+  catch(e){if(e&&e.code==='declined')return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();
+}
+function dlBackup(){
+  if(typeof XLSX==='undefined'){alert('Excel tool did not load. Check your internet and reload the page.');return}
+  const subRows=[['Subject','Target %'],...S.subjects.map(s=>[s.name,s.target])];
+  const att=[['Date','Subject','Status','Note']];
+  const days=new Set(Object.keys(S.records));Object.keys(S.notes).forEach(k=>days.add(k.split('|')[0]));
+  [...days].sort().forEach(d=>S.subjects.forEach(s=>{const v=(S.records[d]||{})[s.id],n=S.notes[d+'|'+s.id];if(v||n)att.push([d,s.name,v?STL[v]:'',n||''])}));
+  const sum=[['Subject','Attended','Absent','Class off','Total (P+A)','Percentage','Target %'],...S.subjects.map(s=>{const t=stats(s.id);return[s.name,t.a,t.ab,t.c,t.t,+t.pct.toFixed(1),s.target]})];
+  const wb=XLSX.utils.book_new();
+  [['Summary',sum,[22,10,10,10,12,12,10]],['Attendance',att,[12,22,12,40]],['Subjects',subRows,[22,10]]].forEach(([n,rows,w])=>{
+    const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=w.map(x=>({wch:x}));XLSX.utils.book_append_sheet(wb,ws,n)});
+  const out=XLSX.write(wb,{bookType:'xlsx',type:'array'});
+  saveBlob(new Blob([out],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),'Sec_C_Attendance_'+todayK+'.xlsx');
+}
+function pDate(v){
+  if(v instanceof Date&&!isNaN(v))return`${v.getFullYear()}-${pad(v.getMonth()+1)}-${pad(v.getDate())}`;
+  if(typeof v==='number'||/^\d{5}(\.\d+)?$/.test(String(v).trim()))return new Date(Math.round((+v-25569)*864e5)).toISOString().slice(0,10);
+  v=String(v||'').trim();let m;
+  if(m=v.match(/^(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})/))return`${m[1]}-${pad(m[2])}-${pad(m[3])}`;
+  if(m=v.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})/))return`${m[3]}-${pad(m[2])}-${pad(m[1])}`;
+  return null;
+}
+function pStat(x){x=String(x||'').trim().toLowerCase();if(!x)return'';if(x[0]==='p')return'P';if(x[0]==='a')return'A';if(x[0]==='c'||x.includes('off')||x.includes('cancel'))return'C';return''}
+function rmsg(m){const e=$('#rs');if(e)e.textContent=m}
+function sheetRows(wb,test){
+  for(const n of wb.SheetNames){
+    const rows=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:true,defval:''});
+    if(!rows.length)continue;
+    const head=rows[0].map(x=>String(x).trim().toLowerCase());
+    if(test(head,n.toLowerCase()))return{head,rows:rows.slice(1)};
+  }
+  return null;
+}
+function restoreExcel(buf){
+  try{
+    const wb=XLSX.read(new Uint8Array(buf),{type:'array'});
+    const A=sheetRows(wb,(h,n)=>h.some(x=>x.startsWith('date'))&&h.some(x=>x.startsWith('subject')));
+    if(!A)throw new Error('No sheet with Date and Subject columns was found. Sheets in file: '+wb.SheetNames.join(', '));
+    const ix=p=>A.head.findIndex(x=>x.startsWith(p));
+    const cD=ix('date'),cS=ix('subject'),cT=ix('status'),cN=ix('note');
+    const B=sheetRows(wb,(h,n)=>h.some(x=>x.startsWith('subject'))&&h.some(x=>x.startsWith('target'))&&!h.some(x=>x.startsWith('date')));
+    const N={subjects:[],records:{},notes:{}},idOf={};let c=0;
+    const ensure=(nm,t)=>{nm=String(nm).trim();if(!nm)return null;if(!idOf[nm]){idOf[nm]='s'+Date.now()+(c++);N.subjects.push({id:idOf[nm],name:nm,target:t||75})}return idOf[nm]};
+    if(B){const a=B.head.findIndex(x=>x.startsWith('subject')),b=B.head.findIndex(x=>x.startsWith('target'));
+      B.rows.forEach(r=>ensure(r[a],Math.min(100,Math.max(1,parseInt(r[b])||75))))}
+    let n=0,bad=0;
+    A.rows.forEach(r=>{
+      if(!String(r[cS]||'').trim()&&!String(r[cD]||'').trim())return;
+      const d=pDate(r[cD]),id=ensure(r[cS]);if(!d||!id){bad++;return}
+      const v=cT>=0?pStat(r[cT]):'';
+      if(v){(N.records[d]||(N.records[d]={}))[id]=v;n++}
+      const nt=cN>=0?String(r[cN]||'').trim():'';if(nt)N.notes[d+'|'+id]=nt});
+    if(!N.subjects.length)throw new Error('No subjects found in the file.');
+    pend=N;
+    rmsg(`File read OK: ${N.subjects.length} subjects, ${n} entries${bad?`, ${bad} rows skipped (unreadable date)`:''}. Tap the button below to restore.`);
+    const rb=$('#rb');if(rb)rb.innerHTML='<button class="btn" style="width:100%;margin-top:8px" onclick="applyRestore()">Replace my data with this file</button>';
+  }catch(e){pend=null;const rb=$('#rb');if(rb)rb.innerHTML='';rmsg('Restore failed ('+(e.name||'Error')+'): '+(e.message||e))}
+}
+function restoreFile(inp){
+  const f=inp.files&&inp.files[0];
+  if(!f){rmsg('No file was selected.');return}
+  rmsg('Reading '+f.name+' ...');
+  const r=new FileReader();
+  r.onerror=()=>{rmsg('Could not open the file. Try saving it to Files first, then pick it from there.')};
+  if(/\.json$/i.test(f.name)){r.onload=()=>{inp.value='';restoreText(r.result)};r.readAsText(f)}
+  else{
+    if(typeof XLSX==='undefined'){rmsg('Excel tool did not load. Connect to the internet, reload the page, and try again.');alert('Excel tool did not load. Connect to the internet and reload the page.');return}
+    r.onload=()=>{inp.value='';restoreExcel(r.result)};r.readAsArrayBuffer(f);
+  }
+}
+function restoreText(j){
+  try{const o=JSON.parse(j);if(!Array.isArray(o.subjects)||!o.records)throw new Error('not a valid backup');
+    pend=Object.assign({notes:{}},o);
+    rmsg(`Backup text OK: ${pend.subjects.length} subjects. Tap the button below to restore.`);
+    const rb=$('#rb');if(rb)rb.innerHTML='<button class="btn" style="width:100%;margin-top:8px" onclick="applyRestore()">Replace my data with this backup</button>';
+  }catch(e){pend=null;rmsg('That backup text is not valid.')}
+}
+function applyRestore(){
+  if(!pend)return;
+  S=pend;pend=null;save();
+  flash=`Restored: ${S.subjects.length} subjects and ${Object.keys(S.records).length} days of attendance.`;
+  cur=null;tab='home';render();scrollTo(0,0);
+}
+function noteTyping(id,v){const k=sel+'|'+id;v=v.trim();if(v)S.notes[k]=v;else delete S.notes[k];save()}
+function openAt(id,d){cur=id;sel=d;vy=+d.slice(0,4);vm=+d.slice(5,7)-1;showHist=false;render();scrollTo(0,0)}
+function remark(st,t){
+  if(!st.t)return{l:'No classes marked yet',c:'var(--mute)'};
+  const d=st.pct-t;
+  if(d>=10)return{l:'Excellent 🌟 well above target',c:'var(--p)'};
+  if(d>=0)return{l:'Safe zone ✅',c:'var(--p)'};
+  if(d>=-10)return{l:'Warning ⚠️ close to shortage',c:'var(--a)'};
+  return{l:'Danger 🚨 attendance shortage',c:'var(--a)'};
+}
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+
+/* calendar: cellFn(key) returns {cls, inner} */
+function calendar(cellFn){
+  const first=new Date(vy,vm,1).getDay(),days=new Date(vy,vm+1,0).getDate();
+  let g=['S','M','T','W','T','F','S'].map(x=>`<div class="dow">${x}</div>`).join('');
+  for(let i=0;i<first;i++)g+='<div></div>';
+  for(let d=1;d<=days;d++){
+    const k=key(vy,vm,d),c=cellFn(k);
+    g+=`<button class="d ${c.cls}${k===todayK?' t':''}${k===sel?' s':''}" onclick="sel='${k}';render()">${d}${c.inner}</button>`;
+  }
+  return`<div class="mh"><button class="nav" onclick="shift(-1)" aria-label="Previous month">‹</button><b>${MN[vm]} ${vy}</b><button class="nav" onclick="shift(1)" aria-label="Next month">›</button></div><div class="g">${g}</div>`;
+}
+function markBtns(id,v){
+  return`<div class="mk">${['P','A','C'].map(x=>`<button class="${x}${v===x?' on':''}" onclick="setMark('${id}','${x}')" aria-label="${LBL[x]}">${x==='C'?'Off':x}</button>`).join('')}</div>`;
+}
+
+/* graph: cumulative % over marked dates for given subject ids */
+function gpts(ids){
+  const ds=Object.keys(S.records).sort();let a=0,t=0,pts=[];
+  ds.forEach(d=>{let ch=false;ids.forEach(i=>{const v=S.records[d][i];if(v==='P'){a++;t++;ch=true}else if(v==='A'){t++;ch=true}});
+    if(ch)pts.push({d,p:a/t*100,a,t})});
+  return pts;
+}
+function graph(ids,target,gid){
+  const pts=gpts(ids);
+  if(pts.length<2)return`<div class="empty">Mark at least 2 days to see your trend graph.</div>`;
+  const W=320,H=150,x=i=>8+i*(W-16)/(pts.length-1),y=p=>H-8-p*(H-16)/100;
+  const path=pts.map((q,i)=>`${i?'L':'M'}${x(i).toFixed(1)},${y(q.p).toFixed(1)}`).join('');
+  const last=pts[pts.length-1];
+  return`<div class="ro" id="ro${gid}">Drag on the graph to see % on any day</div>
+  <svg class="gr" viewBox="0 0 ${W} ${H}" onpointermove="gh(event,'${ids.join(',')}',${target},'${gid}')" onpointerdown="gh(event,'${ids.join(',')}',${target},'${gid}')">
+  <line x1="8" x2="${W-8}" y1="${y(target)}" y2="${y(target)}" stroke="var(--c)" stroke-dasharray="4 4"/>
+  <text x="${W-8}" y="${y(target)-4}" text-anchor="end" font-size="10" fill="var(--mute)">target ${target}%</text>
+  <path d="${path}" fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle id="gc${gid}" cx="${x(pts.length-1)}" cy="${y(last.p)}" r="5" fill="var(--acc)" stroke="var(--card)" stroke-width="2"/></svg>`;
+}
+function gh(e,ids,target,gid){
+  const pts=gpts(ids.split(','));const r=e.currentTarget.getBoundingClientRect();
+  const fx=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));const i=Math.round(fx*(pts.length-1));const q=pts[i];
+  const c=$('#gc'+gid);c.setAttribute('cx',8+i*(304)/(pts.length-1));c.setAttribute('cy',142-q.p*134/100);
+  $('#ro'+gid).innerHTML=`${fd(q.d)}: <span style="color:${col(q.p,target)}">${q.p.toFixed(1)}%</span> <span class="mu">(${q.a}/${q.t})</span>`;
+}
+
+function homeView(){
+  const list=S.subjects.map(s=>{const st=stats(s.id);return`<button class="sc" onclick="openSubj('${s.id}')">
+    <div class="top"><b>${esc(s.name)}</b><span class="pct" style="color:${col(st.pct,s.target)}">${st.pct.toFixed(1)}%</span></div>
+    <div class="bar"><i style="width:${st.pct}%;background:${col(st.pct,s.target)}"></i></div>
+    <div class="mu">${st.a}/${st.t} attended · target ${s.target}%</div></button>`}).join('')||`<div class="card empty">Add your first subject below.</div>`;
+  return`<h1>Sec_C Attendance</h1>${flash?`<div class="card" style="border-color:var(--p);font-weight:600">${flash}</div>`:''}${list}
+  <div class="card"><b>Add subject</b><div class="add" style="margin-top:8px"><input id="sn" placeholder="Subject name" maxlength="40"><input id="st" class="t" type="number" inputmode="numeric" value="75" aria-label="Target percent"><button class="btn" onclick="addSubject()">Add</button></div><div class="mu" style="margin-top:6px;font-size:13px">Right box is your target attendance %.</div></div>
+  <div class="card"><b>Backup and restore (Excel)</b><div class="mu" style="font-size:13px;margin:4px 0 8px">Your data lives only in this browser. Download your attendance as an Excel file and save it in Files or iCloud. To get it back, restore from the same Excel file.</div>
+  <button class="btn" style="width:100%;margin-bottom:8px" onclick="dlBackup()">Download Excel backup</button>
+  <label class="btn" style="display:flex;align-items:center;justify-content:center;background:none;color:var(--ink);border:1.5px solid var(--line)">Restore from Excel file<input type="file" style="display:none" onchange="restoreFile(this)"></label>
+  <div id="rs" class="mu" style="font-size:13px;margin-top:8px;min-height:18px"></div><div id="rb"></div>
+  <div class="mu" style="font-size:13px;margin:12px 0 4px">Backup as text (optional)</div>
+  <textarea id="rt" placeholder="Backup text appears or is pasted here"></textarea>
+  <button class="lnk" onclick="exportData()">Copy backup text</button> &nbsp; <button class="lnk" onclick="restoreText($('#rt').value)">Restore from text</button></div>`;
+}
+function subjView(){
+  const s=subj(cur);if(!s){cur=null;return homeView()}
+  const st=stats(s.id),k=sel+'|'+s.id,v=(S.records[sel]||{})[s.id];
+  const cal=calendar(d=>{const m=(S.records[d]||{})[s.id];return{cls:m||'',inner:S.notes[d+'|'+s.id]?'<span class="nt"></span>':''}});
+  const mp=Object.keys(S.records).filter(d=>d.startsWith(`${vy}-${pad(vm+1)}`)).map(d=>S.records[d][s.id]).filter(Boolean);
+  const ma=mp.filter(x=>x==='P').length,mt=mp.filter(x=>x!=='C').length;
+  const proj=((st.a+wa)/Math.max(1,st.t+wa+wm)*100);
+  const hist=showHist?`<div class="log">${st.log.length?st.log.map(([d,x])=>`<div><span>${fd(d)}${S.notes[d+'|'+s.id]?`<small>${esc(S.notes[d+'|'+s.id])}</small>`:''}</span><b style="color:var(--${x.toLowerCase()})">${LBL[x]}</b></div>`).join(''):'<div>No history yet</div>'}</div>`:'';
+  return`<button class="back" onclick="cur=null;render()">‹ All subjects</button>
+  <div class="card"><div class="top"><b style="font-size:22px">${esc(s.name)}</b><span class="pct" style="color:${col(st.pct,s.target)}">${st.pct.toFixed(1)}%</span></div>
+  <div class="bar"><i style="width:${st.pct}%;background:${col(st.pct,s.target)}"></i></div>
+  <div class="chips"><span>Attended <b>${st.a}</b>/${st.t}</span><span>Absent <b>${st.ab}</b></span><span>Off <b>${st.c}</b></span><span class="mu">Target ${s.target}%</span></div>
+  <div style="margin-top:8px;font-weight:600;color:${remark(st,s.target).c}">${remark(st,s.target).l}</div><div style="margin-top:4px;font-weight:600">${advice(st,s.target)}</div></div>
+  <div class="card">${cal}<div class="mu" style="margin-top:10px;font-size:13px">This month: ${ma}/${mt} attended${mt?` (${(ma/mt*100).toFixed(0)}%)`:''}. Yellow dot = note.</div></div>
+  <div class="card"><b>${fd(sel,{weekday:'long',day:'numeric',month:'long'})}</b><div style="margin:10px 0">${markBtns(s.id,v)}</div>
+  <div class="mu" style="font-size:13px;margin-bottom:4px">Note for this day (saves as you type)</div><textarea placeholder="Example: Test announced, assignment due, teacher absent" oninput="noteTyping('${s.id}',this.value)">${esc(S.notes[k]||'')}</textarea></div>
+  <div class="card"><b>Percentage trend</b>${graph([s.id],s.target,'s')}</div>
+  <div class="card"><b>What if?</b><div class="mu" style="font-size:13px;margin:4px 0 10px">Slide to see your future percentage.</div>
+  <div>Attend next <b>${wa}</b> classes</div><input type="range" min="0" max="30" value="${wa}" oninput="wa=+this.value;render()">
+  <div style="margin-top:8px">Miss next <b>${wm}</b> classes</div><input type="range" min="0" max="30" value="${wm}" oninput="wm=+this.value;render()">
+  <div style="margin-top:10px">You will be at <span class="pct" style="font-size:26px;color:${col(proj,s.target)}">${proj.toFixed(1)}%</span></div></div>
+  <div class="card"><div class="top"><b>History</b><button class="lnk" style="padding:0" onclick="showHist=!showHist;render()">${showHist?'Hide':'Show'}</button></div>${hist}</div>
+  <div class="card"><button class="lnk" onclick="editSubject('${s.id}')">Rename or change target</button> &nbsp; <button class="lnk dng" onclick="delSubject('${s.id}')">Delete subject</button></div>`;
+}
+function markView(){
+  const cal=calendar(d=>{const vals=Object.values(S.records[d]||{});
+    return{cls:'',inner:`<span class="dots">${['P','A','C'].filter(x=>vals.includes(x)).map(x=>`<i style="background:var(--${x.toLowerCase()})"></i>`).join('')}</span>`}});
+  const r=S.records[sel]||{};
+  const rows=S.subjects.length?S.subjects.map(s=>`<div class="row" style="flex-wrap:wrap"><div class="n">${esc(s.name)}</div>${markBtns(s.id,r[s.id])}<input style="flex-basis:100%" placeholder="Note (optional)" value="${esc(S.notes[sel+'|'+s.id]||'')}" oninput="noteTyping('${s.id}',this.value)"></div>`).join(''):`<div class="empty">Add subjects first.</div>`;
+  return`<h1>Quick mark</h1><div class="card">${cal}</div>
+  <div class="card"><div class="top"><b>${fd(sel,{weekday:'long',day:'numeric',month:'long'})}</b>${S.subjects.length?'<button class="lnk" style="padding:0" onclick="allPresent()">All present</button>':''}</div>${rows}</div>`;
+}
+function statsView(){
+  if(!S.subjects.length)return`<h1>Insights</h1><div class="card empty">Add subjects to see insights.</div>`;
+  let TA=0,TT=0;
+  S.subjects.forEach(s=>{const st=stats(s.id);TA+=st.a;TT+=st.t});
+  const cards=S.subjects.map(s=>{const st=stats(s.id),rm=remark(st,s.target);
+    return`<button class="sc" onclick="openSubj('${s.id}')"><div class="top"><b>${esc(s.name)}</b><b style="color:${col(st.pct,s.target)}">${st.pct.toFixed(1)}%</b></div>
+    <div class="bar"><i style="width:${st.pct}%;background:${col(st.pct,s.target)}"></i></div>
+    <div style="color:${rm.c};font-weight:600">${rm.l}</div><div style="margin-top:2px">${advice(st,s.target)}</div></button>`}).join('');
+  const ids=S.subjects.map(s=>s.id),avgT=Math.round(S.subjects.reduce((x,s)=>x+s.target,0)/S.subjects.length);
+  const low=S.subjects.filter(s=>{const st=stats(s.id);return st.t&&st.pct<s.target});
+  const nk=Object.keys(S.notes).filter(k=>subj(k.split('|')[1])).sort().reverse().slice(0,30);
+  const notes=nk.length?nk.map(k=>{const[d,id]=k.split('|');return`<button class="sc" style="margin:0 0 8px;padding:10px" onclick="openAt('${id}','${d}')"><div class="mu" style="font-size:13px">${fd(d)} · ${esc(subj(id).name)}</div><div>${esc(S.notes[k])}</div></button>`}).join(''):'<div class="empty">No notes yet. Add one on any date inside a subject, or in Quick mark.</div>';
+  const ov=TT?TA/TT*100:0;
+  return`<h1>Insights</h1><div class="card"><div class="mu">Overall</div><div class="pct" style="color:${col(ov,avgT)}">${ov.toFixed(1)}%</div><div class="mu" style="margin-top:6px">${TA} attended out of ${TT} classes</div>
+  <div style="margin-top:8px;font-weight:600;color:${low.length?'var(--a)':'var(--p)'}">${TT?(low.length?`${low.length} subject${low.length>1?'s':''} below target`:'All subjects are in the safe zone ✅'):'Mark some classes to see remarks'}</div></div>
+  ${low.length?`<div class="card"><b>To reach the safe zone</b>${low.map(s=>`<div class="row"><div class="n">${esc(s.name)}</div><div style="text-align:right;font-size:14px">${advice(stats(s.id),s.target)}</div></div>`).join('')}</div>`:''}
+  <div class="card"><b>Overall trend</b>${graph(ids,avgT,'o')}</div>
+  <h1 style="font-size:20px;margin:16px 0 10px">By subject</h1>${cards}
+  <div class="card"><b>Important notes</b><div style="margin-top:8px">${notes}</div></div>`;
+}
+function render(){
+  $('#app').innerHTML=(cur?subjView():{home:homeView,mark:markView,stats:statsView}[tab]())+'<div class="foot">Made with ❤️ by Sec_C</div>';
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));
+}
+document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>go(b.dataset.t));
+render();
+</script>
+</body>
+</html>
