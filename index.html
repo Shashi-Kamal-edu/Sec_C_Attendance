@@ -124,7 +124,7 @@ function saveTitle(){
   const v=$('#ti').value.trim();
   if(v)S.title=v.slice(0,30);
   editingTitle=false;
-  document.title=S.title||'Sec_C Attendance';
+  document.title=S.title||'Attendance';
   save();render();
 }
 function go(t){tab=t;cur=null;flash='';render();scrollTo(0,0)}
@@ -279,7 +279,7 @@ function homeView(){
     <div class="top"><b>${esc(s.name)}</b><span class="pct" style="color:${col(st.pct,s.target)}">${st.pct.toFixed(1)}%</span></div>
     <div class="bar"><i style="width:${st.pct}%;background:${col(st.pct,s.target)}"></i></div>
     <div class="mu">${st.a}/${st.t} attended · target ${s.target}%</div></button>`}).join('')||`<div class="card empty">Add your first subject below.</div>`;
-  const ttl=S.title||'Sec_C Attendance';
+  const ttl=S.title||'Attendance';
   const head=editingTitle
     ?`<div class="add" style="margin:6px 0 14px"><input id="ti" value="${esc(ttl)}" maxlength="30"><button class="btn" onclick="saveTitle()">Save</button></div>`
     :`<h1>${esc(ttl)} <button class="pen" onclick="editingTitle=true;render()" aria-label="Edit app name">✏️</button></h1>`;
